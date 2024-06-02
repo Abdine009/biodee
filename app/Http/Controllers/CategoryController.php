@@ -23,14 +23,13 @@ class CategoryController extends Controller
     }
 
     public function edit ($uuid){
+        dd($uuid);
 
         $category= Category::find($uuid);
-        //dd($category);
+        dd($category);
         if (!$category) {
             abort(404); // Catégorie non trouvée
         }
-
-       
         return view('category.edit', ['category'=>$category]);
     }
 

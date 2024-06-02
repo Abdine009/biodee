@@ -7,6 +7,7 @@ use App\Http\Requests\ProductRequest;
 use  App\Models\Product;
 use  App\Models\Category;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Auth;
 
 
 
@@ -25,19 +26,72 @@ class ProductController extends Controller
         $validatedData = $request->validated();
         $validatedData['photo']=$imagePath;
 
-        return Redirect::route('dashboard')->with('success', 'Produit créé avec succès !');
-
-
-        // if (!$request->has('category_title')) {
-        //     $validatedData['category_title'] = 'défaut';
-        // }
-
-       // dd($validatedData);
 
         $product=Product:: create ($validatedData);
+        return Redirect::route('dashboard')->with('success', 'Produit créé avec succès !');
+
         
     }
-    public function findCategory(Request $request){
+
+
+    public function findByCategoryRecent(){
+        $data = $this->getCommonData();
+        return view('bienvenue', $data);
+    }
+    
+    public function findByCategoryOnDashboard(){
+        $data = $this->getCommonData();
+        return view('dashboard', $data);
+    }
+    
+    private function getCommonData(){
+        $milkProducts = $this->findByCategoryMilk();
+        $beautyProducts = $this->findByCategoryBeauty();
+    
+        $products = Product::orderBy('created_at', 'desc')
+                            ->take(3)
+                            ->get();
+        $categories = Category::all();
+    
+        return [
+            'products' => $products,
+            'categories' => $categories,
+            'milkProducts' => $milkProducts,
+            'beautyProducts' => $beautyProducts,
+        ];
+    }
+
+
+
+    public function findByCategoryMilk(){
+
+
+
+        $milkProducts = Product::where('category_title', 'like' , "Et voluptas voluptate sed ducimus eius rem sed inventore.")
+                            ->orderBy('created_at', 'desc')
+                            ->take(3)
+                            ->get();
+        $categories = Category::all();
+        return $milkProducts;
+
+    }
+
+    public function findByCategoryBeauty(){
+
+
+
+        $beautyProducts = Product::where('category_title', 'like' , "Et voluptas voluptate sed ducimus eius rem sed inventore.")
+                            ->orderBy('created_at', 'desc')
+                            ->take(3)
+                            ->get();
+        $categories = Category::all();
+        return $beautyProducts;
+
+    }
+
+    public function findByCategory(Request $request){
+
+       
         //dd($request);
         $categoryId = $request->get('uuid');
         //dd($categoryId);
@@ -66,7 +120,7 @@ class ProductController extends Controller
         $products = Product::all();
         $categories = Category::all();
 
-        return view('welcome', ['products' => $products,'categories' => $categories]);
+        return view('bienvenue', ['products' => $products,'categories' => $categories]);
         }
 
     public function displayOnDashboard(){
@@ -155,6 +209,14 @@ class ProductController extends Controller
 
         return view('product.detail', ['product'=> $product]);
         //return view('product.detail');
+    }
+
+
+    public function productsByUuid(Request $request){
+
+        $userId = Auth::id();
+        dd($userId);
+
     }
     
 

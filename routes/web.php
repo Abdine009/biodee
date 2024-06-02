@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\AuthController;
+
 
 
 // Route::get('/', function () {
@@ -20,8 +22,17 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::get('/dashboard', [ProductController::class, 'findByCategoryOnDashboard'])->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/',[ProductController::class,'display'])->name('display.products');
+
+
+
+Route::get('/loggin',[AuthController::class, 'login'])->name('auth.loggin');
+Route::delete('/logout',[AuthController::class, 'logout'])->name('auth.logout');
+Route::post('/loggin',[AuthController::class, 'doLogin']);
+
+
+Route::get('/',[ProductController::class,'findByCategoryRecent'])->name('display.products');
 Route::get('/create/products', [ProductController::class,'create'])->name('product.create');
 Route::post('/create/products', [ProductController::class,'docreate'])->name('product.docreate');
 Route::get('/{product}/edit',[ProductController::class,'edit'])->name('edit.product');
@@ -30,10 +41,9 @@ Route::delete('/{product}/delete',[ProductController::class,'delete'])->name('de
 Route::post('/find', [ProductController::class,'find'])->name('product.find');
 Route::post('/trouver',[ProductController::class, 'trouver'])->name('trouver');
 Route::get('/details/product/{product}',[ProductController::class,'details'])->name('detail.product');
-Route::post('/find/category', [ProductController::class, 'findCategory'])->name('find.category');
-Route::get('/dashboard', [ProductController::class, 'displayOnDashboard'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::post('/find/category', [ProductController::class, 'findByCategory'])->name('find.category');
 Route::get('/navigation', [ProductController::class, 'displayOnNavigation'])->name('navigation');
-
+Route::post('/products/user',[ProductController::class, 'productsByUuid'])->name('products.user');
 
 
 Route::get('/create/category', [CategoryController::class,'create'])->name('category.create');

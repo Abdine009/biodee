@@ -68,61 +68,18 @@
                             </form>
                 </li>
             
-              
+                <li class="nav-item">
+                <a class="nav-link" href="{{route('auth.loggin')}}">Se connecter</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="#">Créer un compte</a>
+                </li>
                 
             </ul>
             <form class="d-flex">
                 <input class="form-control me-2" type="search" placeholder="Rechercher un produit" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Rechercher</button>
             </form>
-            </div>
-            <div>
-                @Auth                    
-                    <div class="collapse navbar-collapse mx-5" id="navbarNavDarkDropdown">
-                        <ul class="navbar-nav">
-                            <li class="nav-item dropdown">
-                            <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            {{Auth::user()->name}}
- 
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-dark">
-                                <li>
-                                    <form action="{{ route('products.user') }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="user_uuid" value="{{ Auth::id() }}">
-                                        <button type="submit">Mes produits</button>
-                                    </form>
-                                </li>
-                                <li><a class="dropdown-item" href="#">Mes produits</a></li>
-                                <li><a class="dropdown-item" href="{{route('product.create')}}">Ajouter un produit</a></li>
-                                
-                                <li><a class="dropdown-item" href="{{route('category.create')}}">Ajouter une catégorie</a></li>
-                             
-                                <li>
-                                <form action="{{route('auth.logout')}}" method="post" class="dropdown-item text-light" >
-
-                                    @method("delete")
-                                    @csrf
-                                    <button class="nav-link text-light">
-                                    Se déconnecter
-                                    </button>
-                                    </form>
-                                </li>
-                            </ul>
-                            </li>
-                        </ul>
-                    </div>
-                @endauth
-                @guest
-                    <!-- <a href="{{route('auth.loggin')}}"></a>
-                    <li class="nav-item"> -->
-                    <a class="nav-link" href="#">Se connecter</a>
-                    </li>
-                    <li class="nav-item">
-                    <a class="nav-link" href="#">Créer un compte</a>
-                    </li>
-                    
-                @endguest
             </div>
         </div>
     </nav>

@@ -204,8 +204,8 @@ Modifier
                 <!-- Détails du produit -->
                 <div class="card-body">
                     <h5 class="card-title">{{ $product->title }}</h5>
-                    <p class="card-text">Prix : {{ $product->price }}</p>
-                    <p class="card-text">Catégorie : {{ $product->category_title }}</p>
+                    <p class="card-text">Prix : {{ $product->price }} XOF</p>
+                    <p class="card-text">Catégorie : {{ $product->category_title }} </p>
                     <p class="card-text">Détail : {{ $product->detail }}</p>
                 </div>
             </div>
