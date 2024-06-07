@@ -28,6 +28,12 @@ class User extends Authenticatable
     protected $keyType='string';
     public $incrementing = false;
 
+
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class, 'user_uuid');
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

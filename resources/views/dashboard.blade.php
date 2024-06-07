@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href=" {{asset('storage/images/favicon.png')}}">
+
     <title>Biode</title>
 
 
@@ -38,6 +40,10 @@
                     border : 0
                 }
 
+                .wrapper::-webkit-scrollbar{
+                    width: 1;
+                }
+
                 
         </style>
 
@@ -71,7 +77,8 @@
               
                 
             </ul>
-            <form class="d-flex">
+            <form  action="{{ route('trouver', ['products'=>$products])}}"  method="post" class="d-flex">
+                @csrf
                 <input class="form-control me-2" type="search" placeholder="Rechercher un produit" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Rechercher</button>
             </form>
@@ -90,22 +97,21 @@
                                     <form action="{{ route('products.user') }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="user_uuid" value="{{ Auth::id() }}">
-                                        <button type="submit">Mes produits</button>
+                                        <button class="dropdown-item">Mes produits</button>
                                     </form>
                                 </li>
-                                <li><a class="dropdown-item" href="#">Mes produits</a></li>
-                                <li><a class="dropdown-item" href="{{route('product.create')}}">Ajouter un produit</a></li>
+                                <li class=" text-light"><a class="dropdown-item" href="{{route('product.create')}}">Ajouter un produit</a></li>
                                 
-                                <li><a class="dropdown-item" href="{{route('category.create')}}">Ajouter une catégorie</a></li>
+                                <li class=" text-light"><a class="dropdown-item" href="{{route('category.create')}}">Ajouter une catégorie</a></li>
                              
                                 <li>
-                                <form action="{{route('auth.logout')}}" method="post" class="dropdown-item text-light" >
+                                    <form action="{{route('auth.logout')}}" method="post" >
 
-                                    @method("delete")
-                                    @csrf
-                                    <button class="nav-link text-light">
-                                    Se déconnecter
-                                    </button>
+                                        @method("delete")
+                                        @csrf
+                                        <button class="dropdown-item" onclick="return confirm('Voulez-vous vraiment vous déconnecter')">
+                                        Se déconnecter
+                                        </button>
                                     </form>
                                 </li>
                             </ul>
@@ -152,7 +158,71 @@
     </div>
 
     <!-- Affichage des produits -->
-    <!-- produits récents -->
+    <!-- <div>
+    @foreach($categories as $categorie)
+
+        <h5 class="">{{ $categorie->title }}</h5>
+
+        @foreach($products as $product)
+            <div class="col">
+                <div class="card h-100 h-md-50 no-border bg-light">
+                    <div class="overflow-hidden">
+                    <a href="{{route('detail.product', ['product' => $product])}}">
+                <img src="{{ asset('storage/images/' . $product->photo) }}" class="card-img-top" alt="Image du produit">
+                    </a>
+                    </div>
+
+                <div class="card-body">
+                    <h5 class="card-title">{{ $product->title }}</h5>
+                    <p class="card-text">{{ $product->price }} XOF</p>
+                </div>
+                </div>
+            </div>
+        @endforeach
+    @endforeach
+
+    </div> -->
+
+
+    <div class="mx-5 mt-5">
+        @foreach($categories as $categorie)
+            <h5 class="">{{ $categorie->title }}</h5>
+            <!-- A revoir  -->
+            <!-- <form action="{{ route('find.category', [$categorie -> title]) }}" method="POST">
+                @csrf
+            <button >Plus</button>
+            </form> -->
+
+            <div class="row">
+
+                @foreach($products->where('category_title', $categorie->title)->take(3) as $product)
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 no-border bg-light">
+                            <div class="overflow-hidden">
+                                <a href="{{route('detail.product', ['product' => $product])}}">
+                                    <img src="{{ asset('storage/images/' . $product->photo) }}" class="card-img-top" alt="Image du produit">
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ $product->title }}</h5>
+                                <p class="card-text">{{ $product->price }} XOF</p>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @endforeach
+    </div>
+
+
+
+
+
+
+
+
+
+    <!-- produits récents
     <div class="row ">
         <div class="col mx-5 my-4">
             <h3 class=""> 
@@ -170,7 +240,11 @@
         @foreach($products as $product)
             <div class="col">
                 <div class="card h-100 h-md-50 no-border bg-light">
+                    <div class="overflow-hidden">
+                    <a href="{{route('detail.product', ['product' => $product])}}">
                 <img src="{{ asset('storage/images/' . $product->photo) }}" class="card-img-top" alt="Image du produit">
+                    </a>
+                    </div>
 
                 <div class="card-body">
                     <h5 class="card-title">{{ $product->title }}</h5>
@@ -179,70 +253,9 @@
                 </div>
             </div>
         @endforeach
-    </div>
+    </div> -->
 
 
-
-                <!-- beautyProducts -->
-
-                <div class="row ">
-        <div class="col mx-5 my-4">
-            <h3 class=""> 
-                Les produits de beauté bio
-            </h3>
-        </div>
-        <div class="col-1 mx-5 my-4">
-            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8"/>
-            </svg>
-        </div>
-    </div>
-    <div class="row row-cols-1 row-cols-md-3 mx-5 g-4">
-        
-        @foreach($beautyProducts as $product)
-            <div class="col">
-                <div class="card h-100 h-md-50 no-border bg-light">
-                <img src="{{ asset('storage/images/' . $product->photo) }}" class="card-img-top" alt="Image du produit">
-
-                <div class="card-body">
-                    <h5 class="card-title">{{ $product->title }}</h5>
-                    <p class="card-text">{{ $product->price }} XOF</p>
-                </div>
-                </div>
-            </div>
-        @endforeach
-    </div>
-
-
-
-    <!-- Catégorie lait -->
-    <div class="row ">
-        <div class="col mx-5 my-4">
-            <h3 class=""> 
-                Lait
-            </h3>
-        </div>
-        <div class="col-1 mx-5 my-4">
-            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8"/>
-            </svg>
-        </div>
-    </div>
-    <div class="row row-cols-1 row-cols-md-3 mx-5 g-4">
-        
-        @foreach($milkProducts as $product)
-            <div class="col">
-                <div class="card h-100 h-md-50 no-border bg-light">
-                <img src="{{ asset('storage/images/' . $product->photo) }}" class="card-img-top" alt="Image du produit">
-
-                <div class="card-body">
-                    <h5 class="card-title">{{ $product->title }}</h5>
-                    <p class="card-text">{{ $product->price }} XOF</p>
-                </div>
-                </div>
-            </div>
-        @endforeach
-    </div>
         <!-- <div class="col">
             <div class="card h-100 h-md-50">
                 <img src="..." class="card-img-top" alt="...">

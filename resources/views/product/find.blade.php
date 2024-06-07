@@ -120,12 +120,7 @@ Modifier
                         <div class="flex">
 
                     
-                            <!-- Logo -->
-                            <div class="shrink-0 flex items-center">
-                                <a href="{{ route('dashboard') }}">
-                                <img src="{{ asset('storage/images/biode.png') }}" alt="Your Logo" style="width: 100px; height:100px">
-                                </a>
-                            </div>
+                         
 
                             
                           
@@ -194,6 +189,7 @@ Modifier
             </nav>
 
             <!-- Affichage des produits  -->
+            @foreach($products as $product)
 
         <div class="container mb-4 mt-10">
             <div class="card h-100 bg-green-50 w-100">
@@ -229,6 +225,8 @@ Modifier
                     </div>
                 </form>
             </div>
+            @endforeach
+
             
         </div>
     <div>

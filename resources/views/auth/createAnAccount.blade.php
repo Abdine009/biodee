@@ -1,29 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href=" {{asset('storage/images/favicon.png')}}">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
-    <title>Biode</title>
-
-    <style>
-            .product-image {
-                width: 200px; /* Définissez la largeur désirée */
-                height: 200px; /* Définissez la hauteur désirée */
-                border-radius: 1%; /* Bordure arrondie */
-                object-fit: cover; /* Empêche l'image de se déformer */
-            }
-            .no-border{
-                    border : 0
-                }
-    </style>
 </head>
 <body>
-       <!-- Navbar -->
-       <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Biode</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,12 +18,19 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{{route('dashboard')}}">Accueil</a>
+                <a class="nav-link active" aria-current="page" href="{{route('display.products')}}">Accueil</a>
                 </li>
                 <li class="nav-item">
                 <a class="nav-link" href="#apropos">A propos de nous</a>
                 </li>
                
+            
+                <li class="nav-item">
+                <a class="nav-link" href="{{route('auth.login')}}">Se connecter</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="{{route('user.create')}}">Créer un compte</a>
+                </li>
                 
             </ul>
             
@@ -46,27 +39,43 @@
     </nav>
 
 
+    <div class="mx-5">
 
 
+<h1>
+    Créer un compte
+</h1>
 
 
-<div class="my-5 mx-5">
+    <form method="POST" action="{{ route('user.docreate') }}" enctype="multipart/form-data">
+        @csrf
 
-<h3>créer une nouvelle catégorie</h3>
+        <div class="mb-3">
+                <label for="name" class="form-label">Nom</label>
+                <input type="name" name="name" class="form-control" id="name" placeholder="Entrez votre nom" value="{{old('name')}}">
+                @error("name")
+                {{$message}}
+                @enderror
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" name="email" class="form-control" id="email" placeholder="Entrez votre email" value="{{old('email')}}">
+                @error("email")
+                {{$message}}
+                @enderror
+            </div>
 
-<form action="" method="post"> 
-    @csrf
-    <input type="text" class="form-control" name="title" ></input>
+            <div class="mb-3">
+                <label for="password" class="form-label">Mot de passe</label>
+                <input type="password" name = "password" class="form-control" id="password" placeholder="Entrez votre mot de passe" >
+                @error("password")
+                {{$message}}
+                @enderror
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Créer</button>
+    </form>
 
-    @error("title")
-        {{$message}}
-        @enderror
-
-
- <button type="submit" class="btn btn-primary mb-3 my-2"> Créer </button>
-</form>
 </div>
-
 
 <!-- Section "À Propos de Nous" -->
 <section class="bg-light py-5 my-4" id="apropos">
@@ -78,7 +87,7 @@
                 </div>
             </div>
         </div>
-</section>
+    </section>
 
 
                 

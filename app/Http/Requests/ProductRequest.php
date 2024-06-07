@@ -31,4 +31,24 @@ class ProductRequest extends FormRequest
             'detail'=>'required|string',
         ];
     }
+
+
+    public function messages(){
+
+        return 
+        [
+            //
+            'title.required'=> 'Le titre du produit est requis',
+            'title.string'=> 'Le titre du produit ne doit contenir que des caractères',
+            'price.numeric'=>"Le prix ne doit qu'être du chiffre",
+
+            // 'category_title' => 'required|string|exists:categories,title', 
+            // 'price'=>'required|numeric',
+            // 'photo'=>'required|image|mimes:jpeg,png,jpg,gif',
+            'detail.required'=>'Le champ détail est requis',
+            'detail.string'=>'Le champ détail ne doit contenir que des caractères',
+
+        ];
+
+    }
 }

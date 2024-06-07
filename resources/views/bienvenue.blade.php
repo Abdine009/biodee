@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href=" {{asset('storage/images/favicon.png')}}">
+
     <title>Biode</title>
 
 
@@ -69,10 +71,10 @@
                 </li>
             
                 <li class="nav-item">
-                <a class="nav-link" href="{{route('auth.loggin')}}">Se connecter</a>
+                <a class="nav-link" href="{{route('auth.login')}}">Se connecter</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="#">Créer un compte</a>
+                <a class="nav-link" href="{{route('user.create')}}">Créer un compte</a>
                 </li>
                 
             </ul>
@@ -110,96 +112,36 @@
 
     <!-- Affichage des produits -->
     <!-- produits récents -->
-    <div class="row ">
-        <div class="col mx-5 my-4">
-            <h3 class=""> 
-                Les plus récents
-            </h3>
-        </div>
-        <div class="col-1 mx-5 my-4">
-            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8"/>
-            </svg>
-        </div>
-    </div>
-    <div class="row row-cols-1 row-cols-md-3 mx-5 g-4">
-        
-        @foreach($products as $product)
-            <div class="col">
-                <div class="card h-100 h-md-50 no-border bg-light">
-                <img src="{{ asset('storage/images/' . $product->photo) }}" class="card-img-top" alt="Image du produit">
+    <div class="mx-5 mt-5">
+        @foreach($categories as $categorie)
+            <h5 class="">{{ $categorie->title }}</h5>
+            <!-- A revoir  -->
+            <!-- <form action="{{ route('find.category', [$categorie -> title]) }}" method="POST">
+                @csrf
+            <button >Plus</button>
+            </form> -->
 
-                <div class="card-body">
-                    <h5 class="card-title">{{ $product->title }}</h5>
-                    <p class="card-text">{{ $product->price }} XOF</p>
-                </div>
-                </div>
+            <div class="row">
+
+                @foreach($products->where('category_title', $categorie->title)->take(3) as $product)
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 no-border bg-light">
+                            <div class="overflow-hidden">
+                                <a href="{{route('detail.product', ['product' => $product])}}">
+                                    <img src="{{ asset('storage/images/' . $product->photo) }}" class="card-img-top" alt="Image du produit">
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ $product->title }}</h5>
+                                <p class="card-text">{{ $product->price }} XOF</p>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
             </div>
         @endforeach
     </div>
 
-
-
-                <!-- beautyProducts -->
-
-                <div class="row ">
-        <div class="col mx-5 my-4">
-            <h3 class=""> 
-                Les produits de beauté bio
-            </h3>
-        </div>
-        <div class="col-1 mx-5 my-4">
-            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8"/>
-            </svg>
-        </div>
-    </div>
-    <div class="row row-cols-1 row-cols-md-3 mx-5 g-4">
-        
-        @foreach($beautyProducts as $product)
-            <div class="col">
-                <div class="card h-100 h-md-50 no-border bg-light">
-                <img src="{{ asset('storage/images/' . $product->photo) }}" class="card-img-top" alt="Image du produit">
-
-                <div class="card-body">
-                    <h5 class="card-title">{{ $product->title }}</h5>
-                    <p class="card-text">{{ $product->price }} XOF</p>
-                </div>
-                </div>
-            </div>
-        @endforeach
-    </div>
-
-
-
-    <!-- Catégorie lait -->
-    <div class="row ">
-        <div class="col mx-5 my-4">
-            <h3 class=""> 
-                Lait
-            </h3>
-        </div>
-        <div class="col-1 mx-5 my-4">
-            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8"/>
-            </svg>
-        </div>
-    </div>
-    <div class="row row-cols-1 row-cols-md-3 mx-5 g-4">
-        
-        @foreach($milkProducts as $product)
-            <div class="col">
-                <div class="card h-100 h-md-50 no-border bg-light">
-                <img src="{{ asset('storage/images/' . $product->photo) }}" class="card-img-top" alt="Image du produit">
-
-                <div class="card-body">
-                    <h5 class="card-title">{{ $product->title }}</h5>
-                    <p class="card-text">{{ $product->price }} XOF</p>
-                </div>
-                </div>
-            </div>
-        @endforeach
-    </div>
         <!-- <div class="col">
             <div class="card h-100 h-md-50">
                 <img src="..." class="card-img-top" alt="...">

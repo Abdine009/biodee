@@ -24,7 +24,18 @@ class LoginRequest extends FormRequest
         return [
             //
             'email'=>'required|email',
+            'email.email'=>"Veuillez saisir une adresse mail valide.",
             'password' => 'required|min:4'
         ];
+
     }
+        public function messages(){
+            return [
+                'email.required' => "L'email est requis.",
+                'email.email'=>"Veuillez saisir une adresse mail valide.",
+                'password.required'=>"Le mot de passe est requis.",
+                'password.min'=>"la longueur min du mot de passe est de 4 caractères",
+            ];
+        }
+    
 }

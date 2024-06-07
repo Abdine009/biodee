@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Category;
+use App\Models\User;
 
 
 /**
@@ -18,21 +19,32 @@ class ProductFactory extends Factory
      */
     public function definition(): array
     {
+        $faker = \Faker\Factory::create('fr_FR'); // Utilise le français
 
         $category = Category::inRandomOrder()->first();
+        $user = User::inRandomOrder()->first();
 
-        $imageFileName = $this->faker->image(storage_path('app/public/images'), 400, 300, null, false);
+        // $imageFileName = $this->faker->image(storage_path('app/public/images'), 400, 300, null, false);
 
-        $imageName = pathinfo($imageFileName, PATHINFO_BASENAME);
+        // $imageName = pathinfo($imageFileName, PATHINFO_BASENAME);
+
+        // Chemin vers le dossier contenant les images
+        $imagesPath = storage_path('app/public/images');
+        $images = array_diff(scandir($imagesPath), array('..', '.'));
+
+        // Sélection aléatoire d'une image
+        $imageName = $this->faker->randomElement($images);
+
 
 
         return [
             //
-            'title'=> $this->faker->sentence(6, true),
+            'title'=> $faker->word(),
             'category_title'=> $category->title,
-            'price'=>$this->faker->randomNumber(4),
+            'user_uuid'=>$user->uuid,
+            'price'=>$faker->randomNumber(4),
             'photo'=>$imageName,
-            'detail'=>$this->faker->sentences(4, true),
+            'detail'=>$faker->sentences(2,true),
         ];
     }
 }

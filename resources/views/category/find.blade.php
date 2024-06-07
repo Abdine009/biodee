@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>find</title>
+    <link rel="icon" href=" {{asset('storage/images/favicon.png')}}">
+
+    <title>Biode</title>
 </head>
 <body>
 

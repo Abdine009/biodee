@@ -15,6 +15,7 @@ return new class extends Migration
             $table->uuid('uuid');
             $table->string('title');
             $table->string('category_title');
+            $table->uuid('user_uuid');
             $table->double('price');
             $table->string('photo');
             $table->string('detail');
@@ -23,7 +24,7 @@ return new class extends Migration
 
 
             $table->foreign('category_title')->references('title')->on('categories')->onDelete('cascade');
-             $table->unique(['category_title', 'title']);
+            $table->foreign('user_uuid')->references('uuid')->on('users')->onDelete('cascade'); 
         });
     }
 

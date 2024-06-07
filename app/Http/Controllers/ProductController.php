@@ -26,6 +26,9 @@ class ProductController extends Controller
         $validatedData = $request->validated();
         $validatedData['photo']=$imagePath;
 
+        $userId = Auth::id();
+        $validatedData['user_uuid']=$userId;
+
 
         $product=Product:: create ($validatedData);
         return Redirect::route('dashboard')->with('success', 'Produit créé avec succès !');
@@ -49,9 +52,10 @@ class ProductController extends Controller
         $beautyProducts = $this->findByCategoryBeauty();
     
         $products = Product::orderBy('created_at', 'desc')
-                            ->take(3)
-                            ->get();
-        $categories = Category::all();
+                                ->get();
+        $categories = Category::orderBy('created_at', 'desc')
+                                ->take(5)
+                                ->get();
     
         return [
             'products' => $products,
@@ -185,11 +189,11 @@ class ProductController extends Controller
     public function trouver(Request $request){
 
         $title = $request->input('title');
-
+        dd($title);
         $products = Product::where('title', 'like', "$title")->get();
+
         
-         return view('product.find', [
-             'products'=> $products,
+         return view('product.find', ['products'=> $products,
              ]);
     }
 
@@ -215,7 +219,12 @@ class ProductController extends Controller
     public function productsByUuid(Request $request){
 
         $userId = Auth::id();
-        dd($userId);
+        // dd($userId);
+        $products = Product::where('user_uuid', 'like', "$userId")->get();
+        
+         return view('product.displayMy', [
+             'products'=> $products,
+             ]);
 
     }
     
