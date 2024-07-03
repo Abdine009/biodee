@@ -32,57 +32,67 @@
         </div>
     </nav>
 
-    <div class="row justify-content-center mx-5">
+    <div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-body">
+                <form method="POST" action="{{ route('product.store') }}" enctype="multipart/form-data">
+                    @csrf
 
-    <form method="POST" action="{{ route('product.docreate') }}" enctype="multipart/form-data" class="mx-5">
-        @csrf
-        
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Titre :</label>
+                        <input type="text" class="form-control" id="title" name="title" required autofocus value="{{ old('title') }}">
+                        @error('title')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
 
-        <div>
-            <x-input-label for="title"  />Titre : <br>
-            <x-text-input type="text" class="block mt-1 w-full" name="title" required autofocus value="{{ old ('title')}}"/>
-            <x-input-error :messages="$errors->get('title')" class="mt-2" />
+                    <div class="mb-3">
+                        <label for="price" class="form-label">Prix :</label>
+                        <input type="text" class="form-control" id="price" name="price" required autofocus value="{{ old('price') }}">
+                        @error('price')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="category_title" class="form-label">Catégorie :</label>
+                        <select name="category_title" class="form-select" required>
+                            <option value="">Sélectionner une catégorie</option>
+                            @foreach($categories as $category)
+                                <option value="{{ $category->title }}">{{ $category->title }}</option>
+                            @endforeach
+                        </select>
+                        @error('category_title')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="photo" class="form-label">Photo :</label>
+                        <input type="file" class="form-control" id="photo" name="photo">
+                        @error('photo')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="detail" class="form-label">Détail :</label>
+                        <input type="text" class="form-control" id="detail" name="detail" required autofocus value="{{ old('detail') }}">
+                        @error('detail')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary">Ajouter le produit</button>
+                    </div>
+                </form>
+            </div>
         </div>
-
-        <div>
-            <x-input-label for="price"  />Prix : <br>
-            <x-text-input type="text" class="block mt-1 w-full" name="price" required autofocus value="{{ old ('price')}}"/>
-            <x-input-error :messages="$errors->get('price')" class="mt-2" />
-        </div>
-
-        <div>
-            <x-input-label for="category_title"  />Categorie : <br>
-            <!-- <x-text-input type="text" class="block mt-1 w-full" name="categorie_title" required autofocus value="{{ old ('category_title')}}"/> -->
-            <select name="category_title" class="block mt-1 w-full border border-gray-300 rounded-md">
-                <option value="" >Sélectionner une catégorie</option>
-                @foreach($categories as $category)
-                    <option value="{{ $category->title }}">{{ $category->title }}</option>
-                @endforeach
-            </select>
-            <x-input-error :messages="$errors->get('categorie_title')" class="mt-2" />
-        </div>
-
-        <div>
-            <x-input-label for="photo"  />Photo : <br>
-            <input type="file" class="block mt-1 w-full" name="photo" ></input>
-            <x-input-error :messages="$errors->get('photo')" class="mt-2" />
-        </div>
-
-        <div>
-            <x-input-label for="detail" />détail : <br>
-            <x-text-input type="text" name="detail" required autofocus value="{{ old ('detail')}}" class="block mt-1 w-full" />
-            <x-input-error :messages="$errors->get('detail')" class="mt-2" />
-        </div>
-
-        
-
-        <div class="flex items-center justify-start mt-4">
-            <x-primary-button class="ms-3">
-                {{ __('Ajouter le produit') }}
-            </x-primary-button>
-        </div>
-    </form>
     </div>
+</div>
+
 
 
 

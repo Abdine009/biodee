@@ -44,56 +44,52 @@
             </div>
         </div>
     </nav>
-<div class="container">
-    <div class="row">
-    
-
-    @if($products->isEmpty())
-        <div class="col my-5">
-            <h3>Aucun produit disponible pour le moment.</h3>
-        </div>
-    @else
-
-    @foreach($products as $product)
-    <div class="col card mb-3 my-5 mx-5 no-border" style="max-width: 540px;">
-        <div class="row g-0">
-            <div class="col-md-4">
-            <img class="card-img-top product-image img-fluid" src="{{ asset('storage/images/' . $product->photo) }}" alt="Image du produit">
-            </div>
-            <div class="col-md-8">
-            <div class="card-body mx-5">
-                <h5 class="card-title">{{ $product->title }}</h5>
-                <p class="card-text">Prix : {{ $product->price }} XOF</p>
-                <p class="card-text">Catégorie : {{ $product->category_title }}</p>
-                <p class="card-text">Détail : {{ $product->detail }}</p>
-            </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col mb-3 my-5 mx-5">
-        <a href="{{ route('edit.product', ['product'=> $product,]) }}">    
-            <div class="flex items-center gap-4">
-                <button class="btn btn-primary">Modifier</button>    
-            </div>
-        </a>
-
-        <div class="my-5">
-            <form action="{{ route('delete.product', [$product -> uuid]) }}" method="POST">
-                @csrf
-                @method('DELETE')
-                <div class="flex items-center gap-4 ml-2">
-                    <button class="btn btn-danger">Supprimer</button>
+    <div class="container">
+        <div class="row">
+            @if($products->isEmpty())
+                <div class="col-12 my-5">
+                    <h3>Aucun produit disponible pour le moment.</h3>
                 </div>
-            </form>
+            @else
+                @foreach($products as $product)
+                    <div class="col-12 card mb-3 my-5 no-border" style="max-width: 540px;">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img class="card-img-top product-image img-fluid" src="{{ asset('storage/images/' . $product->photo) }}" alt="Image du produit">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body mx-5">
+                                    <h5 class="card-title">{{ $product->title }}</h5>
+                                    <p class="card-text">Prix : {{ $product->price }} XOF</p>
+                                    <p class="card-text">Catégorie : {{ $product->category_title }}</p>
+                                    <p class="card-text">Détail : {{ $product->detail }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-1 mb-3 my-5">
+                        <a href="{{ route('product.edit', ['product'=> $product]) }}">    
+                            <div class="flex items-center gap-4">
+                                <button class="btn btn-primary">Modifier</button>    
+                            </div>
+                        </a>
+
+                        <div class="my-5">
+                            <form action="{{ route('product.destroy', [$product -> uuid]) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <div class="flex items-center gap-4 ml-2">
+                                    <button class="btn btn-danger" onclick="return confirm('Voulez-vous vraiment supprimer le produit')">Supprimer</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                @endforeach
+            @endif
         </div>
     </div>
-        @endforeach
-    @endif
-    
 
-        
-</div>
 
 
 <!-- Section "À Propos de Nous" -->

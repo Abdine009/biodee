@@ -15,11 +15,7 @@ trait HasUuid {
                 $model->uuid=Str::uuid();
             }
         });
-    
-
 }
 }
-
-
 
 ?>

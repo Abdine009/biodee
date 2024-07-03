@@ -8,6 +8,7 @@ use  App\Models\Product;
 use  App\Models\Category;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\ProductRequestUpdate;
 
 
 
@@ -16,11 +17,22 @@ class ProductController extends Controller
     //
 
 
+    // public function index()
+    // {
+    //     //
+    //     return view("product.create",['categories' => $categories]);
+
+    // }
+
+
+
+
     public function create(){
         $categories = Category::all();
         return view("product.create",['categories' => $categories]);
     }
-    public function docreate(ProductRequest $request){
+
+    public function store(ProductRequest $request){
 
         $imagePath = $request->file('photo')->store('','custom_images');
         $validatedData = $request->validated();
@@ -149,23 +161,45 @@ class ProductController extends Controller
         return view('product.edit', ['product'=>$product]);
     }
 
-    public function doedit(string $uuid, ProductRequest $request){
+    public function update(string $uuid, ProductRequestUpdate $request){
 
-        $product= Product::find($uuid);
-
-        //dd($category);
-
-
-        $imagePath = $request->file('photo')->store('','custom_images');
+        $product = Product::find($uuid);
+    
+        if(!$product) {
+            // Gérer le cas où le produit n'est pas trouvé
+            return redirect()->back()->with('error', 'Produit non trouvé');
+        }
+    
+        // Vérifier si la requête est valide
         $validatedData = $request->validated();
-        $validatedData['photo']=$imagePath;
-
+    
+        // Traiter la mise à jour du produit
+        if(!$request->hasFile('photo') || !$request->file('photo')->isValid()) {
+            // Si aucun fichier photo n'est fourni ou s'il n'est pas valide,
+            // ne pas mettre à jour la photo
+            unset($validatedData['photo']);
+        } else {
+            // Si un fichier photo est fourni et est valide,
+            // mettre à jour la photo
+            $imagePath = $request->file('photo')->store('custom_images');
+            $validatedData['photo'] = $imagePath;
+        }
+    
+        // Mettre à jour les autres champs du produit
         $product->update($validatedData);
-
+    
+        // Rediriger avec un message de succès
+        return redirect()->route('displayProducts.user')->with('success', 'Produit mis à jour avec succès');
     }
 
+    public function DisplayProductsByUuid(){
+        
+        return view ('product.displayMy');
+    }
+    
 
-    public function delete ($uuid){
+
+    public function destroy ($uuid){
 
         $product= Product::find($uuid);
         //dd($category);
