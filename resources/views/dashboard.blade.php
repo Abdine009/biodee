@@ -184,14 +184,18 @@
     </div> -->
 
 
-    <div class="mx-5 mt-5">
+    <div class="mx-5 mt-5 col">
         @foreach($categories as $categorie)
-            <h5 class="">{{ $categorie->title }}</h5>
+            <h5 class="row">{{ $categorie->title }}</h5>
             <!-- A revoir  -->
-            <!-- <form action="{{ route('find.category', [$categorie -> title]) }}" method="POST">
-                @csrf
-            <button >Plus</button>
-            </form> -->
+             <div class="row">
+                <form action="{{ route('find.category') }}" method="POST">
+                    @csrf
+                <input type="hidden" name="uuid" value="{{ $categorie->uuid }}">
+                <button type="submit" class="mb-3 btn btn-secondary" >Voir Plus</button>
+                </form>
+            </div>
+            
 
             <div class="row">
 

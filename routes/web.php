@@ -39,18 +39,24 @@ Route::get('/',[ProductController::class,'findByCategoryRecent'])->name('display
 Route::get('/details/product/{product}',[ProductController::class,'details'])->name('detail.product');
 
 
+
+
 Route::middleware('auth')->group(function () {
 
-    Route::get('/create/products', [ProductController::class,'create'])->name('product.create');
-    Route::post('/create/products', [ProductController::class,'docreate'])->name('product.docreate');
-    Route::get('/{product}/edit',[ProductController::class,'edit'])->name('edit.product');
-    Route::put('/{product}/edit',[ProductController::class,'doedit'])->name('update.product');
-    Route::delete('/{product}/delete',[ProductController::class,'delete'])->name('delete.product');
+    //Route::get('/create/products', [ProductController::class,'create'])->name('product.create');
+    // Route::post('/create/products', [ProductController::class,'docreate'])->name('product.docreate');
+    //Route::get('/{product}/edit',[ProductController::class,'edit'])->name('edit.product');
+    //Route::put('/{product}/edit',[ProductController::class,'doedit'])->name('update.product');
+    //Route::delete('/{product}/delete',[ProductController::class,'delete'])->name('delete.product');
+    Route::resource('product',ProductController::class);
+
     Route::post('/find', [ProductController::class,'find'])->name('product.find');
     Route::post('/trouver',[ProductController::class, 'trouver'])->name('trouver');
     Route::post('/find/category', [ProductController::class, 'findByCategory'])->name('find.category');
     Route::get('/navigation', [ProductController::class, 'displayOnNavigation'])->name('navigation');
     Route::post('/products/user',[ProductController::class, 'productsByUuid'])->name('products.user');
+    Route::get('/products/user',[ProductController::class, 'DisplayProductsByUuid'])->name('displayProducts.user');
+
 
     Route::get('/create/category', [CategoryController::class,'create'])->name('category.create');
     Route::post('/create/category', [CategoryController::class,'docreate']);
