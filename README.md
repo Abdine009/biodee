@@ -37,7 +37,7 @@ Deployment
 The database is hosted on Supabase, so the deployment process is simplified. Follow these steps to deploy the project:
 
 Clone the repository:
-git clone https://github.com/yourusername/bio-catalog.git
+git clone https://github.com/Abdine009/biodee.git
 cd bio-catalog
 
 Install dependencies:
