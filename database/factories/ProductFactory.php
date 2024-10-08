@@ -44,7 +44,7 @@ class ProductFactory extends Factory
             'user_uuid'=>$user->uuid,
             'price'=>$faker->randomNumber(4),
             'photo'=>$imageName,
-            'detail'=>$faker->sentences(2,true),
+            'detail'=>$faker->realText(100),
         ];
     }
 }

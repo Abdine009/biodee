@@ -15,12 +15,15 @@ class CategoryFactory extends Factory
      * @return array<string, mixed>
      */
     public function definition(): array
+    
     {
+        $faker = \Faker\Factory::create('fr_FR');
+
 
 
         return [
             //
-            'title'=> $this->faker->words(3, true),
+            'title'=> $this->faker->text(10),
 
         ];
     }
